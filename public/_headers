@@ -1,0 +1,15 @@
+# Cloudflare Pages headers for mesh.aashenaifi.com
+
+# Cross-origin isolation (SharedArrayBuffer for multi-threaded Wasm).
+/*
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Resource-Policy: same-site
+
+# Built files are content-hashed, so they can be cached for a year.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# The OpenSCAD engine keeps fixed file names: always revalidate.
+/openscad/*
+  Cache-Control: no-cache
