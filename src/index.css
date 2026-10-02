@@ -1,0 +1,86 @@
+@import 'tailwindcss';
+
+/* Same tokens as STL Studio (stl-studio/index.html) so the tools feel like one family. */
+@theme {
+  --color-page: #0e0a13;
+  --color-surface: #16101d;
+  --color-surface-2: #1e1627;
+  --color-surface-3: #271d33;
+  --color-line: #30253d;
+  --color-line-strong: #463757;
+  --color-ink: #f1e9f5;
+  --color-muted: #a797b3;
+  --color-faint: #75668a;
+  --color-accent: #80519f;
+  --color-accent-hi: #9a6bba;
+  --color-accent-soft: #e1cce8;
+  --color-ok: #58c48e;
+  --color-warn: #f0b64e;
+  --color-err: #ef6b73;
+  --color-info: #7fb4ff;
+  --color-axis-x: #ff8a8a;
+  --color-axis-y: #8dde8d;
+  --color-axis-z: #8ab8ff;
+
+  --font-sans: 'Cairo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  --radius-ui: 10px;
+  --radius-ui-sm: 7px;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+  }
+  body {
+    background: var(--color-page);
+    color: var(--color-ink);
+    font: 14px/1.5 var(--font-sans);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  button {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent-soft);
+    outline-offset: 2px;
+  }
+  input[type='color'] {
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  input[type='color']::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  input[type='color']::-webkit-color-swatch {
+    border: 1px solid var(--color-line-strong);
+    border-radius: 6px;
+  }
+  input[type='color']::-moz-color-swatch {
+    border: 1px solid var(--color-line-strong);
+    border-radius: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
