@@ -115,7 +115,7 @@ function mapFeature(f: WorldFeature, d: Matrix4): WorldFeature {
 }
 
 /** "Scale to a new size": type over a measured value and the object is scaled to match (uniform or one axis). */
-export function ScaleToMeasure() {
+export function ScaleToMeasure({ idPrefix = 'ms' }: { idPrefix?: string } = {}) {
   const unit = useSettingsStore((s) => s.units);
   const picks = useMeasureStore((s) => s.picks);
   const objects = useSceneStore((s) => s.objects);
@@ -170,14 +170,14 @@ export function ScaleToMeasure() {
     <div className="flex flex-col gap-1 rounded-md border border-line px-2 py-1.5 text-[12.5px]" data-testid="measure-scale">
       <b className="text-[12px] uppercase tracking-[0.5px] text-muted">Scale to a new size</b>
       {options.length > 1 && (
-        <FieldRow label="Value" htmlFor="ms-val">
-          <select id="ms-val" value={m.key} onChange={(e) => setKey(e.target.value)} className="min-w-0 rounded-[7px] border border-line bg-surface-2 px-2 py-1 text-[13px]">
+        <FieldRow label="Value" htmlFor={`${idPrefix}-val`}>
+          <select id={`${idPrefix}-val`} value={m.key} onChange={(e) => setKey(e.target.value)} className="min-w-0 rounded-[7px] border border-line bg-surface-2 px-2 py-1 text-[13px]">
             {options.map((o) => <option key={o.key} value={o.key}>{`${o.label}: ${formatLength(o.value, unit)}`}</option>)}
           </select>
         </FieldRow>
       )}
-      <FieldRow label={options.length > 1 ? 'New value' : `New ${m.label.toLowerCase()}`} htmlFor="ms-target" hint={`Now ${formatLength(m.value, unit)}`}>
-        <NumberInput id="ms-target" value={mmToUnit(value, unit)} min={mmToUnit(0.001, unit)} max={mmToUnit(1e6, unit)} suffix={unit} onCommit={(v) => setTarget(unitToMm(v, unit))} />
+      <FieldRow label={options.length > 1 ? 'New value' : `New ${m.label.toLowerCase()}`} htmlFor={`${idPrefix}-target`} hint={`Now ${formatLength(m.value, unit)}`}>
+        <NumberInput id={`${idPrefix}-target`} value={mmToUnit(value, unit)} min={mmToUnit(0.001, unit)} max={mmToUnit(1e6, unit)} suffix={unit} onCommit={(v) => setTarget(unitToMm(v, unit))} />
       </FieldRow>
       <FieldRow label="Scale">
         <Segmented label="Scale how" value={uniform ? 'uniform' : 'axis'} onChange={(v) => setUniform(v === 'uniform')} options={[{ value: 'uniform', label: 'Uniform' }, { value: 'axis', label: 'One axis' }]} />
@@ -188,8 +188,8 @@ export function ScaleToMeasure() {
         </FieldRow>
       )}
       {ids.length > 1 && (
-        <FieldRow label="Object to scale" htmlFor="ms-obj">
-          <select id="ms-obj" value={objectId} onChange={(e) => setWho(e.target.value)} className="min-w-0 rounded-[7px] border border-line bg-surface-2 px-2 py-1 text-[13px]">
+        <FieldRow label="Object to scale" htmlFor={`${idPrefix}-obj`}>
+          <select id={`${idPrefix}-obj`} value={objectId} onChange={(e) => setWho(e.target.value)} className="min-w-0 rounded-[7px] border border-line bg-surface-2 px-2 py-1 text-[13px]">
             {ids.map((id) => <option key={id} value={id}>{name(id)}</option>)}
           </select>
         </FieldRow>

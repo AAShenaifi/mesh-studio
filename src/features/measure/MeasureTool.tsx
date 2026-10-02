@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useThree } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import { BufferGeometry, DoubleSide, Float32BufferAttribute, OrthographicCamera, PerspectiveCamera, Raycaster, Vector2, Vector3, type Camera, type Mesh } from 'three';
@@ -154,6 +154,38 @@ const Tag = ({ children, testId, tone = 'pick' }: { children: ReactNode; testId?
   </div>
 );
 
+/** The distance label on the model: click it to type a new size (opens the same box as the sidebar's "Scale to a new size"). */
+function EditableDistance({ text }: { text: string }) {
+  const [open, setOpen] = useState(false);
+  const pickCount = useMeasureStore((s) => s.picks.length);
+  useEffect(() => setOpen(false), [pickCount]);
+  const stop = (e: { stopPropagation: () => void }) => e.stopPropagation();
+  return (
+    <div style={{ pointerEvents: 'auto' }} onPointerDown={stop} onPointerUp={stop} onClick={stop} onDoubleClick={stop} onWheel={stop}>
+      {open ? (
+        <div className="w-[272px] rounded-lg border border-line-strong bg-surface p-1.5 shadow-xl" data-testid="measure-label-editor">
+          <div className="flex items-center justify-between px-1 pb-1 text-[11.5px] text-muted">
+            <span>Type a new size</span>
+            <button type="button" aria-label="Close" className="rounded px-1.5 text-[15px] leading-none text-muted hover:bg-surface-3 hover:text-ink" onClick={() => setOpen(false)}>×</button>
+          </div>
+          <ScaleToMeasure idPrefix="lbl" />
+        </div>
+      ) : (
+        <button
+          type="button"
+          data-testid="measure-label"
+          title="Click to type a new size"
+          onClick={() => setOpen(true)}
+          className="cursor-pointer whitespace-nowrap rounded-md bg-[#ffd166] px-2 py-0.5 font-mono text-[12px] font-bold text-[#1b1300] shadow ring-1 ring-[#1b1300]/30 hover:ring-2"
+        >
+          {text}
+          <span aria-hidden="true" className="ml-1.5 font-sans text-[11px] opacity-70">✎</span>
+        </button>
+      )}
+    </div>
+  );
+}
+
 /**
  * Measure tool (Bambu Studio / PrusaSlicer style): the feature under the cursor is
  * highlighted with its size; a click selects it. Points mode snaps to corners,
@@ -177,6 +209,9 @@ export function MeasureTool() {
       lastCircle.current = null;
       return;
     }
+    const app = useAppStore.getState();
+    app.setSidebarTab('scene');
+    app.setPanelOpen('Measure', true);
     const el = gl.domElement;
     const raycaster = new Raycaster();
     (raycaster as Raycaster & { firstHitOnly?: boolean }).firstHitOnly = true;
@@ -316,8 +351,8 @@ export function MeasureTool() {
         </Html>
       )}
       {result && segment && result.distance != null && (
-        <Html position={segment[0]!.clone().add(segment[1]!).multiplyScalar(0.5)} center style={{ pointerEvents: 'none' }}>
-          <Tag testId="measure-label">{fmt(result.distance)}</Tag>
+        <Html position={segment[0]!.clone().add(segment[1]!).multiplyScalar(0.5)} center zIndexRange={[40, 0]}>
+          <EditableDistance text={fmt(result.distance)} />
         </Html>
       )}
       {result && result.angle != null && (arc?.length ? arc[Math.floor(arc.length / 2)] : segment ? null : hoverPos) && (
