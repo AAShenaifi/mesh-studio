@@ -15,7 +15,7 @@ files carry no per-file notice). Bundled libraries keep their own licences:
 admesh GPL-2.0-or-later, libnest2d LGPL-3.0, mcut LGPL-3.0/GPL, earcut ISC.
 Ported code goes to `src/ported/<feature>/` and is listed in `PORTED.md`.
 
-Note on AGPL §13: Mesh Studio is reachable at apps.aashenaifi.com. Anyone
+Note on AGPL §13: Mesh Studio is reachable at mesh.aashenaifi.com. Anyone
 who can use it over the network is entitled to its source; a public repo (or a
 "Source" link in the app) satisfies that. Worth adding the link once the first
 port lands.

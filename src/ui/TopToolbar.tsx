@@ -3,7 +3,7 @@ import { useSceneStore, type GizmoMode } from '../store/useSceneStore';
 import { useSettingsStore } from '../store/useSettingsStore';
 import { pickFiles } from '../loaders/pickFiles';
 import {
-  BackIcon, CameraIcon, CopyIcon, CubeIcon, DownloadIcon, FitIcon, GridIcon, KeyboardIcon, MoveIcon, OpenIcon, RedoIcon,
+  CameraIcon, CopyIcon, CubeIcon, DownloadIcon, FitIcon, GridIcon, KeyboardIcon, MoveIcon, OpenIcon, RedoIcon,
   RotateIcon, ScaleIcon, SettingsIcon, TrashIcon, UndoIcon,
 } from './icons';
 import { ToolButton, ToolGroup } from './primitives';
@@ -42,10 +42,6 @@ export function TopToolbar() {
 
   return (
     <header className="flex h-[54px] shrink-0 items-center gap-3 border-b border-line bg-surface px-3.5">
-      <a href="https://apps.aashenaifi.com/" aria-label="Back to all tools" className="inline-flex items-center gap-1 rounded-[7px] px-2 py-1.5 text-[13px] font-semibold text-muted no-underline hover:bg-surface-2 hover:text-ink">
-        <BackIcon width={16} height={16} />
-        Tools
-      </a>
       <div className="flex items-center gap-2 text-[17px] font-extrabold tracking-[0.2px]">
         <img src="/icon-192.png" alt="" aria-hidden="true" width={24} height={24} className="inline-block h-6 w-6 rounded-md" />
         <span className="max-lg:hidden">Mesh Studio</span>

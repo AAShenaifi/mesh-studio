@@ -16,6 +16,6 @@ import './features/zipImport';
 import './features/measure';
 import './features/generators';
 // AI designer: temporarily disabled. It calls /api/stl-ai, a Cloudflare Pages
-// Function that only exists on the apps.aashenaifi.com project, not on this site.
+// Function that does not exist on this site.
 // To bring it back: restore the line below and add a matching /api/stl-ai backend.
 // import './features/ai';

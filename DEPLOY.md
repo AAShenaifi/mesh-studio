@@ -1,12 +1,11 @@
 # Deploying Mesh Studio (mesh.aashenaifi.com)
 
-Mesh Studio is its own Cloudflare Pages project, separate from the hub at
-apps.aashenaifi.com. It is built from this folder by Cloudflare on every push.
+Mesh Studio is its own Cloudflare Pages project. It is built from this folder by Cloudflare on every push.
 
 ## Cloudflare Pages settings (one-time)
 
-Workers & Pages -> Create -> Pages -> Connect to Git -> `AAShenaifi/my-tools` (private).
-The public `AAShenaifi/mesh-studio` repo is only a source mirror (AGPL source link in Settings -> About); copy `apps/mesh-studio/` into it after changes.
+Workers & Pages -> Create -> Pages -> Connect to Git -> the source repository.
+Settings -> About links to the public source (AGPL).
 
 | Setting | Value |
 | --- | --- |
@@ -29,8 +28,6 @@ aashenaifi.com is on the same Cloudflare account.)
   `src/features/scad/scad.worker.ts`. `openscad.wasm` is ~9.2 MiB, under the
   25 MiB Pages file limit.
 - `public/manifest.webmanifest` + icon files: app icon, home-screen install.
-- The old `apps.aashenaifi.com/mesh-studio/` and `/stl-studio/` URLs redirect
-  here through the root `_redirects` file of the hub project.
 
 ## Local checks
 
@@ -45,4 +42,4 @@ node tests/e2e/run-all.mjs http://localhost:4173/
 ## AI designer
 
 Temporarily disabled (see `src/features.ts`). It needs the `/api/stl-ai`
-Pages Function, which only exists in the hub project.
+Pages Function, which does not exist on this site.
