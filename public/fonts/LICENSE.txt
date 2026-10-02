@@ -1,0 +1,1 @@
+The TTF files in this folder come from Google Fonts (via the @expo-google-fonts packages) and are licensed under the SIL Open Font License 1.1 (https://openfontlicense.org). Each font keeps its own copyright; they may be used, embedded and redistributed freely, but not sold on their own.

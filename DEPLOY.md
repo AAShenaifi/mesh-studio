@@ -1,0 +1,48 @@
+# Deploying Mesh Studio (mesh.aashenaifi.com)
+
+Mesh Studio is its own Cloudflare Pages project, separate from the hub at
+apps.aashenaifi.com. It is built from this folder by Cloudflare on every push.
+
+## Cloudflare Pages settings (one-time)
+
+Workers & Pages -> Create -> Pages -> Connect to Git -> `AAShenaifi/my-tools` (private).
+The public `AAShenaifi/mesh-studio` repo is only a source mirror (AGPL source link in Settings -> About); copy `apps/mesh-studio/` into it after changes.
+
+| Setting | Value |
+| --- | --- |
+| Production branch | `main` |
+| Root directory | `apps/mesh-studio` |
+| Build command | `npm ci && npm run build` |
+| Build output directory | `dist` |
+| Environment variable | `NODE_VERSION` = `22` |
+
+Then: the new project -> Custom domains -> Set up a custom domain ->
+`mesh.aashenaifi.com`. (Cloudflare adds the DNS record for you when
+aashenaifi.com is on the same Cloudflare account.)
+
+## What is in this folder that makes it work
+
+- `public/_headers`: COOP `same-origin` + COEP `require-corp` + CORP `same-site`
+  for the whole site (cross-origin isolation for multi-threaded Wasm), and cache
+  rules. Do not add third-party scripts, fonts or iframes: COEP blocks them.
+- `public/openscad/`: the OpenSCAD engine (Wasm, JS, libraries), loaded by
+  `src/features/scad/scad.worker.ts`. `openscad.wasm` is ~9.2 MiB, under the
+  25 MiB Pages file limit.
+- `public/manifest.webmanifest` + icon files: app icon, home-screen install.
+- The old `apps.aashenaifi.com/mesh-studio/` and `/stl-studio/` URLs redirect
+  here through the root `_redirects` file of the hub project.
+
+## Local checks
+
+```bash
+cd apps/mesh-studio
+npm ci
+npm run build                 # type-check + production build into dist/
+npm run preview               # http://localhost:4173/ (sends the same isolation headers)
+node tests/e2e/run-all.mjs http://localhost:4173/
+```
+
+## AI designer
+
+Temporarily disabled (see `src/features.ts`). It needs the `/api/stl-ai`
+Pages Function, which only exists in the hub project.
